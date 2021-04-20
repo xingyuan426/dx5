@@ -2,13 +2,15 @@ package web.page;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.util.HashMap;
+import java.util.List;
 
-public class ContactPage {
-    private WebDriver driver;
+public class ContactPage extends BasePage {
+
     public ContactPage(WebDriver driver) {
-        this.driver=driver;
+        super(driver);
     }
 
     public ContactPage add(String name, String accountId, String mobile, HashMap<String,String> data){
@@ -32,6 +34,11 @@ public class ContactPage {
         return this;
     }
 
+    public ContactPage searchLabel(String condition ){
+        driver.findElement(By.cssSelector("input.js_search_in")).sendKeys(condition);
+        return this;
+    }
+
     public String getMember(){
         String name = driver.findElement(By.cssSelector(".member_display_cover_detail_name")).getText();
         return name;
@@ -39,29 +46,50 @@ public class ContactPage {
     }
 
     public ContactPage addDepart(String name, String parent) {
-        driver.findElement(By.linkText("添加")).click();
-        driver.findElement(By.linkText("添加部门")).click();
-        driver.findElement(By.name("name")).sendKeys(name);
-        driver.findElement(By.linkText("选择所属部门")).click();
-        //避免使用滚动
-        driver.findElement(By.linkText(parent)).click();
-        driver.findElement(By.linkText("确定")).click();
-        return this;
+        try {
+            click(By.linkText("添加"));
+            click(By.linkText("添加部门"));
+            sendKeys(By.name("name"),name);
+            click(By.linkText("选择所属部门"));
+            //避免使用滚动
+            Thread.sleep(300);
+            driver.findElement(By.tagName("form")).findElement(By.linkText(parent)).click();
+            driver.findElement(By.linkText("确定")).click();
+            return this;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String getDepart(){
-        String name = driver.findElement(By.id("party_name")).getText();
-        return name;
+        String depart = driver.findElement(By.id("party_name")).getText();
+        return depart;
 
     }
 
     public ContactPage toLabel(){
-        driver.findElement(By.linkText("标签")).click();
+        try {
+            driver.findElement(By.linkText("标签")).click();
+            Thread.sleep(1000);
+            return this;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ContactPage addLabel(String labelName, String parent){
+        driver.findElement(By.cssSelector("i.member_colLeft_top_addBtn")).click();
+        driver.findElement(By.name("name")).sendKeys(labelName);
+        driver.findElement(By.cssSelector(".qui_btn.ww_btn.ww_btn_Dropdown.js_toggle_share_range")).click();
+        driver.findElement(By.tagName("form")).findElement(By.linkText(parent)).click();
+        driver.findElement(By.linkText("确定")).click();
         return this;
     }
 
-    public ContactPage addLabel(){
-        driver.findElement(By.cssSelector(".member_colLeft_top_addBtn")).click();
-        return this;
+    public String getLabel(){
+        String label = driver.findElement(By.cssSelector("span.ww_commonCntHead_title_inner_text")).getText();
+        return label;
     }
 }

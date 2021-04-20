@@ -17,7 +17,7 @@ public class MainPage extends BasePage{
 //        driver.findElement(By.linkText("添加成员"));
         try {
             click(By.linkText("添加成员"));
-            Thread.sleep(10000);
+            Thread.sleep(5000);
             return new ContactPage(driver);
         } catch (InterruptedException e) {
             e.printStackTrace();

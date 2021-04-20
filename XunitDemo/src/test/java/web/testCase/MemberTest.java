@@ -1,6 +1,7 @@
 package web.testCase;
 
 
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
@@ -41,4 +42,13 @@ public class MemberTest {
         String res = new WeWork().startWeb().login().toMemberPage().addDepart(departName, "PML-课题5-服务定制网络").search(departName).getDepart();
         assertThat(res,equalTo(departName));
     }
+
+    @Test
+    public void addLabel(){
+        String labelName = "标签"+System.currentTimeMillis();
+        String res = new WeWork().startWeb().login().toMemberPage().toLabel().addLabel(labelName,"所有管理员").search(labelName).getLabel();
+        assertThat(labelName,equalTo(labelName));
+    }
+
+
 }
