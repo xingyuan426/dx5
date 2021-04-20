@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="C:/Users/Sherry/workspace/junit5Demo">
+        <classes>
+            <class name="xunit.testngexaples.packageB.ClassBTest">
+                <methods>
+                    <include name="testCaseB"/>
+                </methods>
+            </class>
+            <class name="xunit.testngexaples.packageC.ClassCTest">
+                <methods>
+                    <include name="testCaseC"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
