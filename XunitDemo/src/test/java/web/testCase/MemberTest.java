@@ -42,8 +42,8 @@ public class MemberTest extends BaseTest {
     @DisplayName("创建成员")
     @Order(1)
     @ParameterizedTest
-    @MethodSource("readMemberValues")
-    public void addUpload(Member member){
+    @MethodSource("addMemberValues")
+    public void addMember(Member member){
         String accountId="zxytest_"+System.currentTimeMillis();
         String username="zxytest";
         String mobile=String.valueOf(System.currentTimeMillis()).substring(0, 11);
@@ -53,13 +53,21 @@ public class MemberTest extends BaseTest {
         assertThat(res, equalTo(username));
     }
 
-    static List<Member> readMemberValues() throws IOException {
+    static List<Member> addMemberValues() throws IOException {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
         TypeReference typeReference = new TypeReference<List<Member>>(){
         };
         List<Member> members = mapper.readValue(new File("src/main/resources/Data/member.yaml"),typeReference);
         return members;
 
+    }
+
+    @Test
+    public void importMembers(){
+        //todo: 将测试数据写入xls,然后再去上传，断言
+        String path = System.getProperty("user.dir")+"/src/main/resources/Data/importMember.xlsx";
+        String res = weWork.startWeb().login().toContactPage().importMember(path).search("测试01").getMember();
+        assertThat(res,equalTo("测试01"));
     }
 
     @DisplayName("创建部门")

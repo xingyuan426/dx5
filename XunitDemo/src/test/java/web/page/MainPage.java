@@ -9,8 +9,14 @@ public class MainPage extends BasePage{
     }
 
     public ContactPage toContactPage(){
-        driver.findElement(By.linkText("通讯录"));
-        return new ContactPage(driver);
+        try {
+            click(By.linkText("通讯录"));
+            Thread.sleep(5000);
+            return new ContactPage(driver);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public ContactPage toMemberPage(){

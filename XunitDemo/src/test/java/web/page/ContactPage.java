@@ -38,6 +38,7 @@ public class ContactPage extends BasePage {
     }*/
 
     public ContactPage add(String username, String accountId, String mobile,Member member){
+        //todo: 性别，部门，标签未做，是否需要每个参数的输入都封装成方法调用？嵌套太多层是否影响代码执行速率和可读性？
         try {
             driver.findElement(By.name("username")).sendKeys(username);
             driver.findElement(By.name("acctid")).sendKeys(accountId);
@@ -62,6 +63,16 @@ public class ContactPage extends BasePage {
         }
         return null;
 
+    }
+
+    //导入成员示意
+    public ContactPage importMember(String filePath){
+        driver.findElements(By.cssSelector(".ww_btn_PartDropdown_left")).get(1).click();
+        driver.findElement(By.linkText("文件导入")).click();
+        driver.findElement(By.id("js_upload_file_input")).sendKeys(filePath);
+        driver.findElement(By.linkText("确认导入")).click();
+        driver.findElement(By.linkText("前往查看")).click();
+        return this;
     }
 
     public void addWithFail(){
@@ -95,7 +106,9 @@ public class ContactPage extends BasePage {
             click(By.linkText("选择所属部门"));
             //避免使用滚动
             Thread.sleep(300);
-            driver.findElement(By.cssSelector(".js_party_list_container>div>ul>li>div")).click();
+            // 按老师的方法先找form再linkText找选项，死活找不到，不明白
+            // driver.findElement(By.tagName("form")).findElement(By.linkText(parent)).click();
+            driver.findElement(By.cssSelector(".js_party_list_container>div>ul>li>a")).click();
             driver.findElement(By.linkText("确定")).click();
             return this;
         } catch (InterruptedException e) {
@@ -105,9 +118,14 @@ public class ContactPage extends BasePage {
     }
 
     public String getDepart(){
-        String depart = driver.findElement(By.id("party_name")).getText();
-        return depart;
-
+        try {
+            Thread.sleep(300);
+            String departName = driver.findElement(By.cssSelector("span#party_name")).getText();
+            return departName;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public ContactPage toLabel(){
