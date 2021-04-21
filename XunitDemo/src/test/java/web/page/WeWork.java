@@ -13,9 +13,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class WeWork{
+public class WeWork extends BasePage{
     private WebDriver driver;
 
+    public WeWork(WebDriver driver) {
+        super(driver);
+    }
 
 
     public WeWork startWeb(){

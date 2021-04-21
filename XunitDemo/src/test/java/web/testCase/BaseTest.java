@@ -20,21 +20,18 @@ import java.util.concurrent.TimeUnit;
  * @version:
  */
 public class BaseTest {
-    WebDriver driver;
-    BasePage basePage = new BasePage(driver);
+    public WeWork weWork;
+    public WebDriver driver;
+
     @BeforeEach
-    public void setUp(){
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/driver/chromedriver.exe");
-        //todo: 支持多浏览器
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.manage().window().maximize();
+    public void init(){
+        weWork= new WeWork(this.driver);
     }
 
-    @AfterEach
+/*    @AfterEach
     public void tearDown(){
-        driver.quit();
-    }
+        weWork.quit();
+    }*/
 
 
 }

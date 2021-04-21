@@ -41,7 +41,9 @@ public class BasePage {
     }
 
     public void sendKeys(By by, String content) {
-        driver.findElement(by).sendKeys(content);
+        if(null!=content) {
+            driver.findElement(by).sendKeys(content);
+        }
     }
 
     public void handleAlert() {
